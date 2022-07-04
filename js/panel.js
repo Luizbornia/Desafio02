@@ -21,17 +21,18 @@ listMenu.forEach(item => {
 
 })
 
-/* CONTROLE DOS CLIENTES */
-
+// CONTROLE DOS CLIENTES
+// CARREGAR DADOS DO FORM
 const codCliente  = document.querySelector("#codCliente")
 const nomeCliente = document.querySelector("#nomeCliente")
 const dataCadCli  = document.querySelector("#dataCadCli")
+    
+    // inicio em i=0 para clientes e produtos
+    let i = 0;
 
-let i = 0;
-
-codCliente.value  = clientes[i].codCliente
-nomeCliente.value = clientes[i].nomeCliente
-dataCadCli.value  = clientes[i].dataCadCli
+    codCliente.value  = clientes[i].codCliente
+    nomeCliente.value = clientes[i].nomeCliente
+    dataCadCli.value  = clientes[i].dataCadCli
 
 //#proxCli', '#antCli
 const btnA = document.querySelector('#proxCli')
@@ -44,8 +45,8 @@ btnA.addEventListener('click', function(){
         nomeCliente.value = clientes[i].nomeCliente
         dataCadCli.value  = clientes[i].dataCadCli
     }else{
-    alert('Não há mais registros')
-    i--
+        alert('Não há mais registros')
+        i--
     }
 })
 
@@ -55,13 +56,18 @@ btnV.addEventListener('click', function(){
         codCliente.value  = clientes[i].codCliente
         nomeCliente.value = clientes[i].nomeCliente
         dataCadCli.value  = clientes[i].dataCadCli
+    }else{
+        alert("Primeiro registro")
+        i++
     }
 })
 
-// SALVAR E NOVO DO CLIENTE
+// NOVO CLIENTE E SALVAR
 
 const novoCli   = document.querySelector('#novoCli')
 const salvarCli = document.querySelector('#salvarCli')
+
+// LET USADO PARA CLIENTE E PRODUTO
 let salvarStatus;
 
 novoCli.addEventListener('click', function(){
@@ -71,24 +77,99 @@ novoCli.addEventListener('click', function(){
     nomeCliente.value   = '';
     dataCadCli.value    = dataFormatada;
     salvarStatus        = true;
-
-    
 })
 
 salvarCli.addEventListener('click', function(){
     if(salvarStatus){
     clientes.push({
-        'codCliente': codCliente.value,
+        'codCliente' : codCliente.value,
         'nomeCliente': nomeCliente.value,
-        'dataCadCli': dataCadCli.value,
+        'dataCadCli' : dataCadCli.value,
     })
-    alert('Dados cadastrados com sucesso')
+    alert('Dados cadastrados com sucesso!')
     i++
     codCliente.value  = clientes[i].codCliente
     nomeCliente.value = clientes[i].nomeCliente
     dataCadCli.value  = clientes[i].dataCadCli
-    salvarStatus = false;
+    salvarStatus      = false;
 
+    }else{
+        alert('Clique em novo para adicionar um novo registro')
+    }
+})
+
+// CONTROLE DOS PRODUTOS
+// CARREGAR DADOS DO FORM
+
+const codProduto        = document.querySelector("#codProduto")
+const descProduto       = document.querySelector("#descProduto")
+const precoProduto      = document.querySelector("#precoProduto")
+const qtdEstoqueProd    = document.querySelector("#qtdEstoqueProd")
+
+    codProduto.value     = produtos[i].codProduto
+    descProduto.value    = produtos[i].descProduto
+    precoProduto.value   = produtos[i].precoProduto
+    qtdEstoqueProd.value = produtos[i].qtdEstoqueProd
+
+// PRODUTO ANTERIOR E PRÓXIMO PRODUTO
+
+const btnProxProd = document.querySelector('#proxProd')
+const btnAntProd  = document.querySelector('#antProd')
+
+btnProxProd.addEventListener('click',function(){
+    i++
+    if(i < produtos.length){
+        codProduto.value     = produtos[i].codProduto
+        descProduto.value    = produtos[i].descProduto
+        precoProduto.value   = produtos[i].precoProduto
+        qtdEstoqueProd.value = produtos[i].qtdEstoqueProd
+    }else{
+        alert('Não há mais registros')
+        i--
+    }
+})
+
+btnAntProd.addEventListener('click',function(){
+    i--
+    if(i >= 0){
+        codProduto.value     = produtos[i].codProduto
+        descProduto.value    = produtos[i].descProduto
+        precoProduto.value   = produtos[i].precoProduto
+        qtdEstoqueProd.value = produtos[i].qtdEstoqueProd
+        }else{
+        alert('Primeiro registro')
+        i++
+    }
+})
+
+// NOVO PRODUTO E SALVAR
+
+const novoProd   = document.querySelector('#novoProd')
+const salvarProd = document.querySelector('#salvarProd')
+
+novoProd.addEventListener('click',function(){
+    codProduto.value      = produtos.length + 1;
+    descProduto.value     = '';
+    precoProduto.value    = '';
+    qtdEstoqueProd.value  = '';
+    salvarStatus          = true;
+})
+
+salvarProd.addEventListener('click',function(){
+    if(salvarStatus){
+        clientes.push({
+            'codProduto'    : codProduto.value,
+            'descProduto'   : descProduto.value,
+            'precoProduto'  : precoProduto.value,
+            'qtdEstoqueProd': qtdEstoqueProd.value
+        })
+        alert('Dados cadastrados com sucesso!')
+        i++
+        codProduto.value     = produtos[i].codProduto
+        descProduto.value    = produtos[i].descProduto
+        precoProduto.value   = produtos[i].precoProduto
+        qtdEstoqueProd.value = produtos[i].qtdEstoqueProd
+        salvarStatus         = false;
     }else{
         alert('Clique em novo para adicionar um novo registro')
     }
@@ -104,8 +185,6 @@ const iPrecoProduto = document.querySelector("#iPrecoProduto");
 const iQtdProduto   = document.querySelector("#iQtdProduto");
 const valorTotal    = document.querySelector("#valorTotal");
 
-
-
 codCliPedido.addEventListener('blur', function(){
     for(let cli of clientes){
         if(codCliPedido.value == cli.codCliente){
@@ -119,7 +198,6 @@ iCodProduto.addEventListener('blur', function(){
         if(iCodProduto.value == pro.codProduto){
             iDecProduto.value = pro.descProduto
             iPrecoProduto.value = pro.precoProduto
-            
         }
     }
 })
@@ -154,14 +232,12 @@ lancarItemPedido.addEventListener('click', function (){
     let tdQtd      = document.createElement('td')
     let tdSubTotal = document.createElement('td')
 
-
     trNova.appendChild(tdItem)
     trNova.appendChild(tdDesc)
     trNova.appendChild(tdPreco)
     trNova.appendChild(tdQtd)
     trNova.appendChild(tdSubTotal)
- 
-  
+   
     tdItem.textContent  =  iCodProduto.value
     tdDesc.textContent  =  iDecProduto.value
     tdPreco.textContent =  iPrecoProduto.value
@@ -172,7 +248,6 @@ lancarItemPedido.addEventListener('click', function (){
 
     totalGeral = (totalGeral + subTotal)
     valorTotal.textContent = `R$ ${totalGeral.toFixed(2)}`
-
 
     tabelaItensPedido.appendChild(trNova)
     verificaItemPedido.push(iCodProduto.value)
