@@ -202,8 +202,8 @@ iCodProduto.addEventListener('blur', function(){
     }
 })
 
-const lancarItemPedido = document.querySelector('#lancarItemPedido')
-const tabelaItensPedido= document.querySelector('.tabelaItensPedido')
+const lancarItemPedido  = document.querySelector('#lancarItemPedido')
+const tabelaItensPedido = document.querySelector('.tabelaItensPedido')
 
     let trNova     = document.createElement('tr')
     let tdItem     = document.createElement('td')
@@ -223,36 +223,60 @@ let totalGeral = 0;
 let verificaItemPedido = [];
 
 lancarItemPedido.addEventListener('click', function (){
-    if(verificaItemPedido.indexOf(iCodProduto.value) == -1){
+    for(let pro of produtos){
+        if(iCodProduto.value == pro.codProduto && iQtdProduto.value <= pro.qtdEstoqueProd){
+            if(verificaItemPedido.indexOf(iCodProduto.value) == -1){
 
-    let trNova     = document.createElement('tr')
-    let tdItem     = document.createElement('td')
-    let tdDesc     = document.createElement('td')
-    let tdPreco    = document.createElement('td')
-    let tdQtd      = document.createElement('td')
-    let tdSubTotal = document.createElement('td')
+                let trNova     = document.createElement('tr')
+                let tdItem     = document.createElement('td')
+                let tdDesc     = document.createElement('td')
+                let tdPreco    = document.createElement('td')
+                let tdQtd      = document.createElement('td')
+                let tdSubTotal = document.createElement('td')
 
-    trNova.appendChild(tdItem)
-    trNova.appendChild(tdDesc)
-    trNova.appendChild(tdPreco)
-    trNova.appendChild(tdQtd)
-    trNova.appendChild(tdSubTotal)
-   
-    tdItem.textContent  =  iCodProduto.value
-    tdDesc.textContent  =  iDecProduto.value
-    tdPreco.textContent =  iPrecoProduto.value
-    tdQtd.textContent   =  iQtdProduto.value
+                trNova.appendChild(tdItem)
+                trNova.appendChild(tdDesc)
+                trNova.appendChild(tdPreco)
+                trNova.appendChild(tdQtd)
+                trNova.appendChild(tdSubTotal)
+            
+                tdItem.textContent  =  iCodProduto.value
+                tdDesc.textContent  =  iDecProduto.value
+                tdPreco.textContent =  iPrecoProduto.value
+                tdQtd.textContent   =  iQtdProduto.value
 
-    subTotal = Number(iPrecoProduto.value) * Number(iQtdProduto.value)
-    tdSubTotal.textContent = subTotal.toFixed(2)
+                subTotal = Number(iPrecoProduto.value) * Number(iQtdProduto.value)
+                tdSubTotal.textContent = subTotal.toFixed(2)
 
-    totalGeral = (totalGeral + subTotal)
-    valorTotal.textContent = `R$ ${totalGeral.toFixed(2)}`
+                totalGeral = (totalGeral + subTotal)
+                valorTotal.textContent = `R$ ${totalGeral.toFixed(2)}`
 
-    tabelaItensPedido.appendChild(trNova)
-    verificaItemPedido.push(iCodProduto.value)
+                tabelaItensPedido.appendChild(trNova)
+                verificaItemPedido.push(iCodProduto.value)
 
-    }else{
-        alert('Item já cadastrado')
+            }else{
+                alert('Item já cadastrado')
+            }
+        }else{
+            alert('Quantidade insuficiente em estoque')
+        }
     }
+})
+
+// FECHAR JANELAS "X"
+
+const fecharJan        = document.querySelector(".fecharJan")
+const fecharJanProduto = document.querySelector(".fecharJanProduto")
+const fecharJanPedidos = document.querySelector(".fecharJanPedidos")
+
+fecharJan.addEventListener("click", function(){
+    document.getElementById("clientes").style.display = "none";
+})
+
+fecharJanProduto.addEventListener("click", function(){
+    document.getElementById("produtos").style.display = "none";
+})
+
+fecharJanPedidos.addEventListener("click", function(){
+    document.getElementById("pedidos").style.display = "none";
 })
